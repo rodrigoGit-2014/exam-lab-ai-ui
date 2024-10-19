@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const FileUploadComponent: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
+    const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' | 'warning' } | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -14,7 +14,7 @@ const FileUploadComponent: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!file) {
-            setMessage('Please select a file first.');
+            setMessage({ text: 'Please select a file first.', type: 'warning' });
             return;
         }
 
@@ -28,14 +28,22 @@ const FileUploadComponent: React.FC = () => {
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
 
-            setMessage(`Response: ${response.data.message || 'File uploaded successfully!'}`);
+            if (response.status === 200 || response.status === 201) {
+                setMessage({ text: 'File uploaded successfully!', type: 'success' });
+            } else {
+                setMessage({ text: 'Something went wrong.', type: 'error' });
+            }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                setMessage(`Error: ${error.response?.data.message || error.message || 'File upload failed!'}`);
+                if (error.response?.status === 409) {
+                    setMessage({ text: 'File duplicated.', type: 'error' });
+                } else {
+                    setMessage({ text: error.response?.data.message || 'File upload failed!', type: 'error' });
+                }
             } else if (error instanceof Error) {
-                setMessage(`Error: ${error.message}`);
+                setMessage({ text: error.message, type: 'error' });
             } else {
-                setMessage('An unknown error occurred.');
+                setMessage({ text: 'An unknown error occurred.', type: 'error' });
             }
         }
     };
@@ -63,8 +71,8 @@ const FileUploadComponent: React.FC = () => {
                 </button>
             </form>
             {message && (
-                <p className="mt-4 text-sm text-center">
-                    {message}
+                <p className={`mt-4 text-sm text-center ${message.type === 'success' ? 'text-green-600' : message.type === 'error' ? 'text-red-600' : 'text-yellow-600'}`}>
+                    {message.text}
                 </p>
             )}
         </div>
