@@ -11,10 +11,23 @@ type NitrogenoUreico = {
 }
 
 type Urea = {
-    reference_range: string;
+     result: number;
+     unit: string;
 }
+
 type Creatinina = {
-    reference_range: string;
+    result: number;
+    unit: string;
+}
+
+type Vfg = {
+    result: number;
+    unit: string;
+}
+
+type AcidoUrico = {
+    result: number;
+    unit: string;
 }
 type LabResult = {
     id: string;
@@ -23,7 +36,9 @@ type LabResult = {
     glicemia: Glicemia;
     nitrogenoUreico: NitrogenoUreico;
     urea: Urea;
-    creatinina: Creatinina
+    creatinina: Creatinina;
+    vfg: Vfg;
+    acidoUrico: AcidoUrico
 };
 
 type Props = {
@@ -46,7 +61,7 @@ const LabResultsTable = ({ rut }: Props) => {
     }, [rut]);
 
     return (
-        <div className="max-w-4xl mx-auto mt-10">
+        <div className="max-w-4xl mx-auto mt-10" style={{ overflowX: "auto", maxHeight: "400px" }>
             <table className="min-w-full bg-white border border-gray-300">
                 <thead>
                 <tr>
@@ -55,7 +70,10 @@ const LabResultsTable = ({ rut }: Props) => {
                     <th className="py-2 px-4 border-b">Exam Date</th>
                     <th className="py-2 px-4 border-b">Glicemia</th>
                     <th className="py-2 px-4 border-b">Nitrogeno Ureico</th>
-                     <th className="py-2 px-4 border-b">Urea</th>
+                    <th className="py-2 px-4 border-b">Urea</th>
+                    <th className="py-2 px-4 border-b">Creatinina</th>
+                    <th className="py-2 px-4 border-b">VFG Estimada (MDRD4-IDMS)</th>
+                    <th className="py-2 px-4 border-b">Acido Urico</th>
                 </tr>
                 </thead>
                 <tbody>
