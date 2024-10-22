@@ -96,6 +96,37 @@ const LabResultsTable = ({ rut }: Props) => {
                                 "-"
                             )}
                         </td>
+
+                         <td className="py-2 px-4 border-b text-center">
+                              {result.urea ? (
+                                  <span className="text-green-500">&#10003;</span>
+                              ) : (
+                                  "-"
+                               )}
+                        </td>
+
+                         <td className="py-2 px-4 border-b text-center">
+                               {result.creatinina ? (
+                                   <span className="text-green-500">&#10003;</span>
+                               ) : (
+                                   "-"
+                                )}
+                         </td>
+                          <td className="py-2 px-4 border-b text-center">
+                               {result.vfg ? (
+                                   <span className="text-green-500">&#10003;</span>
+                               ) : (
+                                   "-"
+                                )}
+                          </td>
+
+                           <td className="py-2 px-4 border-b text-center">
+                               {result.acidoUrico ? (
+                                   <span className="text-green-500">&#10003;</span>
+                               ) : (
+                                   "-"
+                                )}
+                            </td>
                     </tr>
                 ))}
                 </tbody>
